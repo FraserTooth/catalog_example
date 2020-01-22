@@ -1,3 +1,4 @@
+const path = require('path')
 const express = require('express')
 const consola = require('consola')
 const { Nuxt, Builder } = require('nuxt')
@@ -24,6 +25,7 @@ async function start() {
   }
 
   app.use('/api', express.json(), express.urlencoded({ extended: true }), api)
+  app.use(express.static(path.join(__dirname, '../dist')))
 
   // Give nuxt middleware to express
   app.use(nuxt.render)
