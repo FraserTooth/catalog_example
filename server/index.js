@@ -10,7 +10,7 @@ const api = require('../controllers')
 const config = require('../nuxt.config.js')
 config.dev = process.env.NODE_ENV !== 'production'
 
-async function start() {
+const start = async () => {
   // Init Nuxt.js
   const nuxt = new Nuxt(config)
 
@@ -40,4 +40,4 @@ async function start() {
     badge: true
   })
 }
-start()
+module.exports = { start }
