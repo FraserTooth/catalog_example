@@ -3,8 +3,8 @@ const colors = require('vuetify/es5/util/colors').default
 module.exports = {
   mode: 'spa',
   server: {
-    port: 8000, // default: 3000
-    host: '0.0.0.0' // default: localhost
+    port: process.env.PORT || 8000, // default: 3000
+    host: process.env.HOST || 'localhost' // default: localhost
   },
   /*
    ** Headers of the page
