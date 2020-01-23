@@ -1,5 +1,4 @@
-if (process.env.NODE_ENV !== 'production')
-  require('dotenv').config({ path: './.env' })
+if (!process.env.DATABASE_URL) require('dotenv').config({ path: './.env' })
 
 const DATABASE_URL = process.env.DATABASE_URL
 
