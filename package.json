@@ -25,7 +25,8 @@
     "moment": "^2.24.0",
     "morgan": "^1.9.1",
     "nuxt": "^2.0.0",
-    "pg": "^7.17.1"
+    "pg": "^7.17.1",
+    "vuetify": "^2.2.6"
   },
   "devDependencies": {
     "@nuxtjs/eslint-config": "^1.0.1",
