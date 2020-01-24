@@ -11,17 +11,8 @@
 </template>
 
 <script>
+import axios from 'axios'
 import CatalogCard from '~/components/CatalogCard.vue'
-const products = [
-  {
-    id: 1,
-    name: 'Large Pie',
-    src:
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Pumpkin_Pie.jpg/1200px-Pumpkin_Pie.jpg',
-    description: "Big Ol' Pumpkin Pie",
-    price: 2300
-  }
-]
 
 export default {
   components: {
@@ -29,8 +20,17 @@ export default {
   },
   data() {
     return {
-      products
+      products: []
     }
+  },
+  mounted() {
+    axios.get('/api/products').then((response) => {
+      if (response) {
+        this.products = response.data
+      } else {
+        this.products = null
+      }
+    })
   }
 }
 </script>

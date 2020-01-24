@@ -5,7 +5,7 @@
   "author": "Fraser Tooth",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development nodemon server/index.js --watch server",
+    "dev": "cross-env NODE_ENV=development nodemon ./index.js --watch server pages components",
     "devFront": "nuxt",
     "build": "nuxt build",
     "start": "cross-env NODE_ENV=production node ./index.js",
