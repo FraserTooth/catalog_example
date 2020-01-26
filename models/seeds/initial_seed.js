@@ -10,6 +10,13 @@ const initialProducts = [
   }
 ]
 
+const initialUsers = [
+  {
+    username: 'demouser',
+    password: '$2b$06$8xkKrfzs4IWKYjm5qrldSuTtyRC2AmvWU6zi7TK3ARBAr6HF1NNUu'
+  }
+]
+
 exports.seed = function(knex) {
   // Deletes ALL existing entries
   return knex('products')
@@ -27,5 +34,21 @@ exports.seed = function(knex) {
           }
         })
       )
+    })
+    .then(function() {
+      return knex('users').del()
+    })
+    .then(function() {
+      // Inserts seed Users
+      return initialUsers.map((user) => {
+        return {
+          username: user.username,
+          password: user.password,
+          last_logged_in: moment().format()
+        }
+      })
+    })
+    .then(function(userData) {
+      return knex('users').insert(userData)
     })
 }

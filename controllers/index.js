@@ -2,6 +2,18 @@ const express = require('express')
 const router = express.Router()
 const moment = require('moment')
 
+const bcrypt = require('bcrypt')
+
+const hashIt = (string) => {
+  // RETURNS A PROMISE
+  return bcrypt.hash(string, 6)
+}
+
+const isPasswordValid = (string, hash) => {
+  // RETURNS A PROMISE
+  return bcrypt.compare(string, hash)
+}
+
 // const moment = require('moment')
 const db = require('../models/index')
 
