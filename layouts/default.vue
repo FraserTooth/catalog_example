@@ -4,7 +4,7 @@
       <v-toolbar-title v-text="title" />
       <v-btn @click.stop="login = !login">Login</v-btn>
       <LoginForm
-        @sessionKey="setSession"
+        @passwordSuccess="closeBox"
         v-if="login === true"
         class="loginForm"
       />
@@ -36,10 +36,8 @@ export default {
     }
   },
   methods: {
-    setSession(key) {
-      console.log('LayoutSession:', key)
+    closeBox() {
       this.login = false
-      this.session = key
     }
   }
 }

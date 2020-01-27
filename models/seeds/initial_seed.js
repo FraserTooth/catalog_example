@@ -51,4 +51,7 @@ exports.seed = function(knex) {
     .then(function(userData) {
       return knex('users').insert(userData)
     })
+    .then(function() {
+      return knex('sessions').del()
+    })
 }

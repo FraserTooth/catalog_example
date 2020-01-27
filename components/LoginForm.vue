@@ -51,7 +51,8 @@ export default {
         .then((response) => {
           const key = response.data.sessionID
           if (key) {
-            this.$emit('sessionKey', key)
+            this.$emit('passwordSuccess')
+            this.$store.commit('updateSession', key)
           }
         })
     }

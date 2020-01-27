@@ -19,10 +19,14 @@ export default {
   components: {
     CatalogCard
   },
-  props: ['session'],
   data() {
     return {
       products: []
+    }
+  },
+  computed: {
+    session() {
+      return this.$store.state.session
     }
   },
   mounted() {
