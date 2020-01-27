@@ -1,6 +1,7 @@
 <template>
   <v-layout column justify-center align-center>
     <v-flex xs12 sm8 md6>
+      <div>Session Key is: {{ session }}</div>
       <CatalogCard
         v-for="product in products"
         v-bind:key="product.id"
@@ -18,6 +19,7 @@ export default {
   components: {
     CatalogCard
   },
+  props: ['session'],
   data() {
     return {
       products: []

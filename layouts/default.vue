@@ -3,11 +3,15 @@
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-toolbar-title v-text="title" />
       <v-btn @click.stop="login = !login">Login</v-btn>
-      <LoginForm v-if="login === true" class="loginForm" />
+      <LoginForm
+        @sessionKey="setSession"
+        v-if="login === true"
+        class="loginForm"
+      />
     </v-app-bar>
     <v-content>
       <v-container>
-        <nuxt />
+        <nuxt :session="session" />
       </v-container>
     </v-content>
 
@@ -29,6 +33,13 @@ export default {
       login: false,
       session: null,
       title: 'Catalog Example'
+    }
+  },
+  methods: {
+    setSession(key) {
+      console.log('LayoutSession:', key)
+      this.login = false
+      this.session = key
     }
   }
 }

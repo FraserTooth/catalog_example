@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card class="dropdown">
     <v-card-title>Login</v-card-title>
     <v-form ref="form" v-model="valid" :lazy-validation="lazy">
       <v-text-field
@@ -19,24 +19,41 @@
         name="input-10-2"
         label="Password"
         hint="At least 8 characters"
-        value="wqfasds"
-        class="input-group--focused"
         required
       ></v-text-field>
     </v-form>
+    <v-btn @click="submit">Submit</v-btn>
   </v-card>
 </template>
 
 <script>
+import axios from 'axios'
+
 export default {
   data() {
     return {
       showPass: false,
+      username: '',
       password: '',
       rules: {
         required: (value) => !!value || 'Required.',
         min: (v) => v.length >= 8 || 'Min 8 characters'
       }
+    }
+  },
+  methods: {
+    submit() {
+      axios
+        .post('/api/login', {
+          username: this.username,
+          password: this.password
+        })
+        .then((response) => {
+          const key = response.data.sessionID
+          if (key) {
+            this.$emit('sessionKey', key)
+          }
+        })
     }
   }
 }
@@ -44,6 +61,6 @@ export default {
 
 <style scoped>
 .dropdown {
-  background-color: red;
+  padding: 10px;
 }
 </style>
