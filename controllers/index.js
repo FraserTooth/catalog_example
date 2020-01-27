@@ -92,4 +92,21 @@ router.delete('/products/:id', async (req, res) => {
   }
 })
 
+// Add a New Product
+router.post('/login', async (req, res) => {
+  try {
+    const userAuth = req.body
+
+    const hash = await hashIt(userAuth.password)
+
+    const inDatabase = await db('users')
+      .select()
+      .where({ username: userAuth.username, password: hash })
+
+    res.json(inDatabase.length === 1)
+  } catch (error) {
+    res.sendStatus(400, error)
+  }
+})
+
 module.exports = router

@@ -1,7 +1,7 @@
 <template>
   <v-layout column justify-center align-center>
     <v-flex xs12 sm8 md6>
-      <catalog-card
+      <CatalogCard
         v-for="product in products"
         v-bind:key="product.id"
         :product="product"
@@ -25,10 +25,10 @@ export default {
   },
   mounted() {
     axios.get('/api/products').then((response) => {
-      if (response) {
+      if (Array.isArray(response.data)) {
         this.products = response.data
       } else {
-        this.products = null
+        this.products = []
       }
     })
   }
