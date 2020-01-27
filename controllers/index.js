@@ -1,3 +1,4 @@
+if (!process.env.DATABASE_URL) require('dotenv').config({ path: './.env' })
 const express = require('express')
 const router = express.Router()
 const moment = require('moment')
@@ -92,21 +93,40 @@ router.delete('/products/:id', async (req, res) => {
   }
 })
 
-// Add a New Product
+// Login
 router.post('/login', async (req, res) => {
   try {
     const userAuth = req.body
 
-    const hash = await hashIt(userAuth.password)
-
     const inDatabase = await db('users')
       .select()
-      .where({ username: userAuth.username, password: hash })
+      .where({ username: userAuth.username })
 
-    res.json(inDatabase.length === 1)
+    if (inDatabase[0]) {
+      const authenticated = await isPasswordValid(
+        userAuth.password,
+        inDatabase[0].password
+      )
+      if (authenticated) {
+        console.log('Correct Password')
+        const sessionKey = await hashIt(userAuth.username)
+        return res.json({ username: userAuth.username, sessionID: sessionKey })
+      } else {
+        console.log('Incorrect Password')
+        throw Error
+      }
+    } else {
+      console.log('Not In Database')
+      throw Error
+    }
   } catch (error) {
-    res.sendStatus(400, error)
+    res.status(401).json({ message: 'Bad credentials' })
   }
+})
+
+router.post('/logout', (req, res) => {
+  delete req.session.authUser
+  res.json({ ok: true })
 })
 
 module.exports = router

@@ -13,7 +13,7 @@ const initialProducts = [
 const initialUsers = [
   {
     username: 'demouser',
-    password: '$2b$06$lHfGWAc85HMDpQZzalwBsuxc7weFXNBilPUFf1ldUU8RYQ/yWxmv.'
+    password: '$2b$06$yRr3jh8h2z0UHL1ZIIycY.KIF1h1aFWhGJv5zWf30eVYUfEODWaPq'
   }
 ]
 
