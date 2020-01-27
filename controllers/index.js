@@ -4,14 +4,16 @@ const moment = require('moment')
 
 const bcrypt = require('bcrypt')
 
+const salt = process.env.PASS_SALT
+
 const hashIt = (string) => {
   // RETURNS A PROMISE
-  return bcrypt.hash(string, 6)
+  return bcrypt.hash(string + salt, 6)
 }
 
 const isPasswordValid = (string, hash) => {
   // RETURNS A PROMISE
-  return bcrypt.compare(string, hash)
+  return bcrypt.compare(string + salt, hash)
 }
 
 // const moment = require('moment')
