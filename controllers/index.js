@@ -110,6 +110,17 @@ router.post('/login', async (req, res) => {
       if (authenticated) {
         console.log('Correct Password')
         const sessionKey = await hashIt(userAuth.username)
+
+        const sessionObject = {
+          session_id: sessionKey,
+          username: userAuth.username,
+          expires: moment()
+            .add(2, 'hours')
+            .format()
+        }
+
+        await db('sessions').insert(sessionObject)
+
         return res.json({ username: userAuth.username, sessionID: sessionKey })
       } else {
         console.log('Incorrect Password')
