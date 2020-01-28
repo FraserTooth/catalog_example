@@ -2,7 +2,10 @@
   <v-app light>
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-toolbar-title v-text="title" />
-      <v-btn @click.stop="login = !login">Login</v-btn>
+      <div>
+        <v-btn v-if="session == null" @click.stop="login = !login">Login</v-btn>
+        <v-btn v-else @click.stop="logout">Logout</v-btn>
+      </div>
       <LoginForm
         @passwordSuccess="closeBox"
         v-if="login === true"
@@ -11,7 +14,7 @@
     </v-app-bar>
     <v-content>
       <v-container>
-        <nuxt :session="session" />
+        <nuxt />
       </v-container>
     </v-content>
 
@@ -31,13 +34,21 @@ export default {
   data() {
     return {
       login: false,
-      session: null,
       title: 'Catalog Example'
+    }
+  },
+  computed: {
+    session() {
+      return this.$store.state.session
     }
   },
   methods: {
     closeBox() {
       this.login = false
+    },
+    logout() {
+      this.login = false
+      this.$store.commit('updateSession', null)
     }
   }
 }

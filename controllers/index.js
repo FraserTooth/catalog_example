@@ -21,11 +21,18 @@ const isPasswordValid = (string, hash) => {
 const db = require('../models/index')
 
 const sessionValid = async (sessionToken) => {
-  const session = await db('notes')
+  const session = await db('sessions')
     .select()
     .where({ session_id: sessionToken })
 
-  return session[0] || false
+  if (session[0].session_id === sessionToken) {
+    console.log('Token Valid')
+    if (moment(session[0].expires) > moment()) {
+      console.log('Token Not Expired')
+      return true
+    }
+  }
+  return false
 }
 
 // Get All Products

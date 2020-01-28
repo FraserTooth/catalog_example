@@ -7,6 +7,20 @@ const initialProducts = [
       'https://upload.wikimedia.org/wikipedia/commons/thumb/1/14/Pumpkin_Pie.jpg/1200px-Pumpkin_Pie.jpg',
     description: "Big Ol' Pumpkin Pie",
     price: 2300
+  },
+  {
+    name: 'Roast Chicken',
+    src:
+      'https://tastesbetterfromscratch.com/wp-content/uploads/2013/12/Roasted-Chicken-11.jpg',
+    description: 'Nice Big Rostie',
+    price: 1400
+  },
+  {
+    name: 'Fish and Chips',
+    src:
+      'https://upload.wikimedia.org/wikipedia/commons/f/ff/Fish_and_chips_blackpool.jpg',
+    description: 'The classic british cuisine',
+    price: 1200
   }
 ]
 
