@@ -4,7 +4,7 @@
     <v-form ref="form" v-model="valid" :lazy-validation="lazy">
       <v-text-field
         v-model="username"
-        :counter="10"
+        :counter="8"
         :rules="[rules.required, rules.min]"
         label="Username"
         required
@@ -16,7 +16,6 @@
         :rules="[rules.required, rules.min]"
         :type="showPass ? 'text' : 'password'"
         @click:append="showPass = !showPass"
-        name="input-10-2"
         label="Password"
         hint="At least 8 characters"
         required

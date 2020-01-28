@@ -40,13 +40,17 @@ router.post('/products', async (req, res) => {
   try {
     const product = req.body
 
+    const price = parseInt(product.price)
+
     const productObject = {
       name: product.name,
       description: product.description,
-      price: product.price,
+      price: price || 0,
       image_src: product.src,
       timestamp: moment().format()
     }
+
+    console.log(productObject)
 
     await db('products').insert(productObject)
 
