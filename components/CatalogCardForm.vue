@@ -59,9 +59,12 @@ export default {
         src: this.image_src
       }
 
-      console.log(productObject)
+      const postObject = {
+        product: productObject,
+        session: this.$store.state.session
+      }
 
-      axios.post('/api/products', productObject).then((response) => {
+      axios.post('/api/products', postObject).then((response) => {
         this.$emit('newProduct')
       })
     }

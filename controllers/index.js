@@ -20,6 +20,14 @@ const isPasswordValid = (string, hash) => {
 // const moment = require('moment')
 const db = require('../models/index')
 
+const sessionValid = async (sessionToken) => {
+  const session = await db('notes')
+    .select()
+    .where({ session_id: sessionToken })
+
+  return session[0] || false
+}
+
 // Get All Products
 router.get('/products', async (req, res) => {
   const products = await db('products').select()
@@ -38,7 +46,12 @@ router.get('/products/:id', async (req, res) => {
 // Add a New Product
 router.post('/products', async (req, res) => {
   try {
-    const product = req.body
+    const product = req.body.product
+    const session = req.body.session
+
+    if (!sessionValid(session)) {
+      res.status(401).json({ message: 'Bad Session Key' })
+    }
 
     const price = parseInt(product.price)
 
