@@ -34,7 +34,7 @@ const start = async () => {
   app.use(morgan('dev'))
 
   // Listen the server
-  app.listen(port, host)
+  app.listen(process.env.PORT || port, host)
   consola.ready({
     message: `Server listening on http://${host}:${port}`,
     badge: true
