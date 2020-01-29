@@ -25,6 +25,7 @@
 </template>
 
 <script>
+import axios from 'axios'
 import LoginForm from '~/components/LoginForm.vue'
 
 export default {
@@ -48,7 +49,16 @@ export default {
     },
     logout() {
       this.login = false
-      this.$store.commit('updateSession', null)
+
+      console.log('Logging Out')
+
+      axios
+        .post('/api/logout', {
+          session: this.session
+        })
+        .then((response) => {
+            this.$store.commit('updateSession', null)
+        })
     }
   }
 }

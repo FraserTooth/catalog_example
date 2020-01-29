@@ -5,6 +5,7 @@ exports.up = function(knex) {
           "session_id" TEXT NOT NULL,
           "username" TEXT NOT NULL,
           "expires" TIMESTAMP NOT NULL,
+          "valid" BOOLEAN NOT NULL,
           CONSTRAINT "sessions_pk" PRIMARY KEY ("id")
       )    
       `)

@@ -140,7 +140,8 @@ router.post('/login', async (req, res) => {
           username: userAuth.username,
           expires: moment()
             .add(2, 'hours')
-            .format()
+            .format(),
+          valid: true
         }
 
         await db('sessions').insert(sessionObject)
@@ -159,8 +160,12 @@ router.post('/login', async (req, res) => {
   }
 })
 
-router.post('/logout', (req, res) => {
-  delete req.session.authUser
+router.post('/logout', async (req, res) => {
+  console.log("Logout Request")
+  const session = req.body.session
+  await db('sessions')
+    .where({ session_id: session })
+    .update({ valid: false })
   res.json({ ok: true })
 })
 
