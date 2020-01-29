@@ -16,6 +16,7 @@
         v-for="product in products"
         v-bind:key="product.id"
         :product="product"
+        @refresh="getProducts"
       />
     </v-flex>
   </v-layout>
