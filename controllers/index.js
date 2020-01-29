@@ -21,18 +21,29 @@ const isPasswordValid = (string, hash) => {
 const db = require('../models/index')
 
 const sessionValid = async (sessionToken) => {
-  const session = await db('sessions')
-    .select()
-    .where({ session_id: sessionToken })
-
-  if (session[0].session_id === sessionToken) {
-    console.log('Token Valid')
-    if (moment(session[0].expires) > moment()) {
-      console.log('Token Not Expired')
-      return true
-    }
+  if (!sessionToken) {
+    console.log('No Session Key')
+    return false
   }
-  return false
+  try {
+    const session = await db('sessions')
+      .select()
+      .where({ session_id: sessionToken })
+
+    if (session[0] && session[0].session_id === sessionToken) {
+      console.log('Token Valid')
+      if (moment(session[0].expires) > moment()) {
+        console.log('Token Not Expired')
+        return true
+      }
+      console.log('Session Key Expired')
+    }
+    console.log('Invalid Session Key')
+    return false
+  } catch (e) {
+    console.error(e)
+    return false
+  }
 }
 
 // Get All Products
@@ -56,8 +67,16 @@ router.post('/products', async (req, res) => {
     const product = req.body.product
     const session = req.body.session
 
+    if (!session) {
+      console.log('No Session Key')
+      res.sendStatus(401, { message: 'No Session Key' })
+      return
+    }
+
     if (!sessionValid(session)) {
-      res.status(401).json({ message: 'Bad Session Key' })
+      console.log('Bad Session Key')
+      res.sendStatus(401, { message: 'Bad Session Key' })
+      return
     }
 
     const price = parseInt(product.price)
@@ -83,7 +102,21 @@ router.post('/products', async (req, res) => {
 // Update a Product
 router.patch('/products/:id', async (req, res) => {
   try {
-    const productInput = req.body
+    const productInput = req.body.product
+    const session = req.body.session
+
+    if (!session) {
+      console.log('No Session Key')
+      res.sendStatus(401, { message: 'No Session Key' })
+      return
+    }
+
+    if (!sessionValid(session)) {
+      console.log('Bad Session Key')
+      res.sendStatus(401, { message: 'Bad Session Key' })
+      return
+    }
+
     const id = req.params.id
     await db('products')
       .where({ id })
@@ -92,6 +125,8 @@ router.patch('/products/:id', async (req, res) => {
     const newNote = await db('products')
       .select()
       .where({ id })
+
+    console.log('Product Updated')
 
     res.json(newNote)
   } catch (error) {
@@ -103,6 +138,23 @@ router.patch('/products/:id', async (req, res) => {
 router.delete('/products/:id', async (req, res) => {
   try {
     const id = req.params.id
+
+    const session = req.body.session
+
+    console.log(req.body)
+
+    if (!session) {
+      console.log('No Session Key')
+      res.sendStatus(401, { message: 'No Session Key' })
+      return
+    }
+
+    if (!sessionValid(session)) {
+      console.log('Bad Session Key')
+      res.sendStatus(401, { message: 'Bad Session Key' })
+      return
+    }
+
     const oldProduct = await db('products')
       .select()
       .where({ id })
@@ -110,6 +162,8 @@ router.delete('/products/:id', async (req, res) => {
     await db('products')
       .where({ id })
       .del()
+
+    console.log('Product Deleted')
 
     res.json(oldProduct)
   } catch (error) {
@@ -161,8 +215,21 @@ router.post('/login', async (req, res) => {
 })
 
 router.post('/logout', async (req, res) => {
-  console.log("Logout Request")
+  console.log('Logout Request')
   const session = req.body.session
+
+  if (!session) {
+    console.log('No Session Key')
+    res.sendStatus(401, { message: 'No Session Key' })
+    return
+  }
+
+  if (!sessionValid(session)) {
+    console.log('Bad Session Key')
+    res.sendStatus(401, { message: 'Bad Session Key' })
+    return
+  }
+
   await db('sessions')
     .where({ session_id: session })
     .update({ valid: false })

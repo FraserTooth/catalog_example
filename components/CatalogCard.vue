@@ -9,8 +9,9 @@
       fab
       dark
       color="blue"
+      red
     >
-      <v-icon dark>mdi-plus</v-icon>
+      <v-icon dark>mdi-wrench</v-icon>
     </v-btn>
     <v-btn
       v-if="session"
@@ -19,8 +20,9 @@
       fab
       dark
       color="red"
+      red
     >
-      <v-icon dark>mdi-plus</v-icon>
+      <v-icon dark>mdi-delete</v-icon>
     </v-btn>
 
     <v-text-field
@@ -88,9 +90,15 @@ export default {
   },
   methods: {
     deleteProduct() {
-      axios.delete(`/api/products/${this.product.id}`).then((response) => {
-        this.$emit('refresh')
-      })
+      axios
+        .delete(`/api/products/${this.product.id}`, {
+          data: {
+            session: this.session
+          }
+        })
+        .then((response) => {
+          this.$emit('refresh')
+        })
     },
     updateProduct() {
       const price = parseInt(this.price) || 0
@@ -104,7 +112,10 @@ export default {
       }
 
       axios
-        .patch(`/api/products/${this.product.id}`, productChanges)
+        .patch(`/api/products/${this.product.id}`, {
+          session: this.session,
+          product: productChanges
+        })
         .then((response) => {
           this.editProduct = false
           this.$emit('refresh')
