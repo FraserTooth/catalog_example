@@ -198,6 +198,8 @@ router.post('/login', async (req, res) => {
           valid: true
         }
 
+        console.log(sessionObject)
+
         await db('sessions').insert(sessionObject)
 
         return res.json({ username: userAuth.username, sessionID: sessionKey })
