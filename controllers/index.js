@@ -210,7 +210,7 @@ router.post('/login', async (req, res) => {
       throw Error
     }
   } catch (error) {
-    res.status(401).json({ message: 'Bad credentials' })
+    res.status(401).json(error)
   }
 })
 
